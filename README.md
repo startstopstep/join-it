@@ -1,2 +1,6 @@
+<details>
+<summary>
 Used packages:
-django-environ - Set up environment variables
+</summary>
+django-environ - Set up environment variables\
+</details>
