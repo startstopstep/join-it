@@ -43,3 +43,4 @@ class Certificate(models.Model):
     organisation = models.CharField(max_length=100, validators=[MinLengthValidator(2)], blank=True, null=True)
     issue_date = models.DateField(blank=True, null=True)
     credential_url = models.URLField()
+
