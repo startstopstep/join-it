@@ -63,3 +63,4 @@ class Certificate(models.Model):
                                     blank=True, null=True)
     issue_date = models.DateField(blank=True, null=True)
     credential_url = models.URLField()
+
