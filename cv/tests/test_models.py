@@ -62,7 +62,7 @@ class TestCvContent:
         assert cv_content.work_experience == work_experience
         assert cv_content.certificate == certificate
 
-    
+
 
 
 class TestEducation:
