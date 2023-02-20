@@ -3,7 +3,6 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 
 
-
 class CvContent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, blank=True, null=True)
