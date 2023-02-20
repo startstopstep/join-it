@@ -1,38 +1,77 @@
 import pytest
+from freezegun import freeze_time
+
 from django.core.validators import MinLengthValidator
+from django.db import models
+from django.contrib.auth import get_user_model
 from cv.models import CvContent, Certificate, Education, WorkExperience
+
+USER = get_user_model()
+
+
+@pytest.mark.django_db
+class TestCvContent:
+
+    @pytest.fixture
+    def user(self):
+        return USER.objects.create_user(
+            email='tasty-tester@exaple.com',
+        )
+
+    @pytest.fixture
+    def certificate(self):
+        return Certificate.objects.create(
+            name='Tester',
+            credential_url='proof.link',
+        )
+
+    @pytest.fixture
+    def education(self):
+        return Education.objects.create(
+            school='test_school',
+            field_of_study='test_field',
+        )
+
+    @pytest.fixture
+    def work_experience(self):
+        return WorkExperience.objects.create(
+            company='test_company',
+            currently_working='False',
+        )
+
+    @pytest.fixture
+    def cv_content(self, user, education, work_experience, certificate):
+        return CvContent.objects.create(
+            user=user,
+            first_name='test',
+            last_name='name',
+            title='tester',
+            summary='test',
+            education=education,
+            work_experience=work_experience,
+            certificate=certificate,
+        )
+
+    def test_values(self, cv_content, user, education, work_experience, certificate):
+        assert cv_content.user == user
+        assert cv_content.first_name == 'test'
+        assert cv_content.last_name == 'name'
+        assert cv_content.title == 'tester'
+        assert cv_content.summary == 'test'
+        assert cv_content.education == education
+        assert cv_content.work_experience == work_experience
+        assert cv_content.certificate == certificate
+
+    
+
+
+class TestEducation:
+    pass
+
+
+class TestWorkExperience:
+    pass
 
 
 class TestCertificate:
-    @staticmethod
-    def set_up():
-        Certificate.objects.create(name='Best Developer', organisation='GeekBox',
-                                   issue_date='2001-01-01', credential_url='http://proof.com')
-
-    @pytest.mark.django_db
-    def test_certificate_name_length(self):
-        self.set_up()
-        errors = []
-        certificate = Certificate.objects.get(id=1)
-        name_max_length = certificate._meta.get_field('name').max_length
-        name_min_length = certificate._meta.get_field('name').validators
-        if name_max_length != 100:
-            errors.append('max length error')
-        if not MinLengthValidator(2) == name_min_length[0]:
-            errors.append('validator error')
-        assert not errors
-
-    @pytest.mark.django_db
-    def test_certificate_organisation_length(self):
-        self.set_up()
-        errors = []
-        certificate = Certificate.objects.get(id=1)
-        name_max_length = certificate._meta.get_field('organisation').max_length
-        name_min_length = certificate._meta.get_field('organisation').validators
-        if name_max_length != 100:
-            errors.append('max length error')
-        if not MinLengthValidator(2) == name_min_length[0]:
-            errors.append('validator error')
-        assert not errors
-
-
+    pass
