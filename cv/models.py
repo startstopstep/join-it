@@ -32,6 +32,9 @@ class CvContent(models.Model):
     certificate = models.ForeignKey('cv.Certificate', on_delete=models.CASCADE,
                                     related_name='certificates')
 
+    def __str__(self):
+        return f'{self.user}_CV'
+
 
 class Education(models.Model):
     school = models.CharField(max_length=100,
@@ -44,6 +47,9 @@ class Education(models.Model):
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
 
+    def __self__(self):
+        return self.school
+
 
 class WorkExperience(models.Model):
     company = models.CharField(max_length=100,
@@ -55,6 +61,9 @@ class WorkExperience(models.Model):
     end_date = models.DateField(blank=True, null=True)
     currently_working = models.BooleanField(default=False)
 
+    def __self__(self):
+        return self.company
+
 
 class Certificate(models.Model):
     name = models.CharField(max_length=100, validators=[MinLengthValidator(2)])
@@ -63,3 +72,6 @@ class Certificate(models.Model):
                                     blank=True, null=True)
     issue_date = models.DateField(blank=True, null=True)
     credential_url = models.URLField()
+
+    def __self__(self):
+        return self.name
